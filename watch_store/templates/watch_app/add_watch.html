@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    <title>ADD WATCH</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container p-5 mt-2">
+        <h2 class="text-center">ADD WATCH FORM</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <div class="text-center">
+                <button class="btn btn-outline-success">ADD WATCH</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

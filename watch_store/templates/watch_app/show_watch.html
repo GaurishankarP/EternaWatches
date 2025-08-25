@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>WATCH DATA</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container p-3 mt-3">
+        <h2 class="text-center">WATCHES</h2>
+        <table class="table table-info table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>BRAND</th>
+                    <th>NAME</th>
+                    <th>MODEL</th>
+                    <th>COLOR</th>
+                    <th>CATEGORY</th>
+                    <th>GENDER</th>
+                    <th>STRAP MATERIAL</th>
+                    <th>STOCK</th>
+                    <th>PRICE</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for watch in watches %}
+                    <tr>
+                        <td>{{watch.id}}</td>
+                        <td>{{watch.brand}}</td>
+                        <td>{{watch.name}}</td>
+                        <td>{{watch.model}}</td>
+                        <td>{{watch.color}}</td>
+                        <td>{{watch.category}}</td>
+                        <td>{{watch.gender}}</td>
+                        <td>{{watch.strap_material}}</td>
+                        <td>{{watch.stock}}</td>
+                        <td>{{watch.price}}</td>
+                        <td>
+                            <a href="{% url 'update-watch' watch.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
+                            <a href="{% url 'delete-watch' watch.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

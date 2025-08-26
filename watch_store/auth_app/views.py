@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 def signup_view(request):
     form = UserCreationForm()
@@ -21,11 +22,16 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
+            messages.success(request, 'Login Successfully')
             return redirect('show-watch')
+
+        else:
+            messages.warning(request, 'Invalid Credentials')
     template_name = "auth_app/login.html"
     context = {}
     return render(request, template_name, context)
 
 def logout_view(request):
     logout(request)
+    messages.success(request, 'Logout Successfully')
     return redirect('login')

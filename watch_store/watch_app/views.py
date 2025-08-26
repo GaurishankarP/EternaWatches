@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import WatchForm
 from .models import Watch
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def home_view(request):
     template_name = "watch_app/home.html"
@@ -16,6 +17,7 @@ def add_watch_view(request):
         form = WatchForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Watch Added Successfully')
             return redirect('show-watch')
     template_name = "watch_app/add_watch.html"
     context = {'form': form}
@@ -35,6 +37,7 @@ def update_watch_view(request, id):
         form = WatchForm(request.POST, instance=watch)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Watch Updated Successfully')
             return redirect('show-watch')
     template_name = "watch_app/add_watch.html"
     context = {'form': form}
@@ -43,5 +46,6 @@ def update_watch_view(request, id):
 def delete_watch_view(request, id):
     watch = Watch.objects.get(id=id)
     watch.delete()
+    messages.success(request, 'Watch Deleted Successfully')
     return redirect('show-watch')
 

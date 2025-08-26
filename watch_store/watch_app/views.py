@@ -49,3 +49,13 @@ def delete_watch_view(request, id):
     messages.success(request, 'Watch Deleted Successfully')
     return redirect('show-watch')
 
+def about_us_view(request):
+    template_name = "watch_app/about_us.html"
+    context = {}
+    return render(request, template_name, context)
+
+def contact_us_view(request):
+    template_name = "watch_app/contact_us.html"
+    context = {}
+    return render(request, template_name, context)
+

@@ -5,82 +5,68 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-4">
+<div class="container mt-4">
     <div class="card shadow-lg border-0 rounded-4">
         <div class="card-header bg-primary text-white text-center rounded-top-4">
             <h2 class="mb-0 fw-bold">⌚ Watches Collection</h2>
         </div>
 
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Brand</th>
-                            <th>Name</th>
-                            <th>Model</th>
-                            <th>Color</th>
-                            <th>Category</th>
-                            <th>Gender</th>
-                            <th>Strap Material</th>
-                            <th>Stock</th>
-                            <th>Price</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for watch in watches %}
-                            <tr>
-                                <td>{{watch.id}}</td>
-                                <td class="fw-semibold">{{watch.brand}}</td>
-                                <td>{{watch.name}}</td>
-                                <td>{{watch.model}}</td>
-                                <td>
-                                    <span class="badge bg-secondary">{{watch.color}}</span>
-                                </td>
-                                <td>{{watch.category}}</td>
-                                <td>{{watch.gender}}</td>
-                                <td>{{watch.strap_material}}</td>
-                                <td>
-                                    {% if watch.stock > 0 %}
-                                        <span class="badge bg-success">In Stock ({{watch.stock}})</span>
-                                    {% else %}
-                                        <span class="badge bg-danger">Out of Stock</span>
-                                    {% endif %}
-                                </td>
-                                <td class="fw-bold text-primary">₹{{watch.price}}</td>
-                                <td>
-                                    <a href="{% url 'update-watch' watch.id %}" class="btn btn-outline-warning btn-sm">
-                                        <i class="bi bi-pencil-square"></i> Update
-                                    </a>
-                                    <a href="{% url 'delete-watch' watch.id %}" class="btn btn-outline-danger btn-sm">
-                                        <i class="bi bi-trash"></i> Delete
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="row g-4">
+                {% for watch in watches %}
+                    <div class="col-md-4 col-lg-3">
+                        <div class="card h-100 shadow-sm border-0 rounded-4">
+                            {% if watch.image %}
+                                <img src="{{ watch.image.url }}"
+                                     alt="{{ watch.name }}"
+                                     class="card-img-top rounded-top-4"
+                                     style="height: 220px; object-fit: cover;">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center bg-light rounded-top-4"
+                                     style="height: 220px;">
+                                    <span class="text-muted">No Image</span>
+                                </div>
+                            {% endif %}
+
+                            <div class="card-body text-center">
+                                <h5 class="fw-bold">{{ watch.brand }}</h5>
+                                <p class="mb-1">{{ watch.name }} - {{ watch.model }}</p>
+                                <span class="badge bg-secondary mb-2">{{ watch.color }}</span>
+                                <p class="small mb-1">{{ watch.category }} | {{ watch.gender }}</p>
+                                <p class="small text-muted">Strap: {{ watch.strap_material }}</p>
+                                {% if watch.stock > 0 %}
+                                    <span class="badge bg-success">In Stock ({{watch.stock}})</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Out of Stock</span>
+                                {% endif %}
+                                <h5 class="mt-2 text-primary fw-bold">₹{{ watch.price }}</h5>
+                            </div>
+
+                            <div class="card-footer bg-transparent border-0 text-center">
+                                <a href="{% url 'update-watch' watch.id %}"
+                                   class="btn btn-outline-warning btn-sm me-2">
+                                    <i class="bi bi-pencil-square"></i> Update
+                                </a>
+                                <a href="{% url 'delete-watch' watch.id %}"
+                                   class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
-        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
-            {% for msg in messages %}
-                <div class="alert alert-{{ msg.tags }} alert-dismissible fade show shadow auto-dismiss-alert" role="alert">
-                    {{ msg }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                    {% endfor %}
+<!-- Message Alerts -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+    {% for msg in messages %}
+        <div class="alert alert-{{ msg.tags }} alert-dismissible fade show shadow auto-dismiss-alert" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div>
+    {% endfor %}
+</div>
 {% endblock %}
-
-
-

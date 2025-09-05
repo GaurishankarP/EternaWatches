@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -128,3 +129,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Email backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Gmail SMTP settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Your Gmail
+EMAIL_HOST_USER = 'yogeshpandhargeri2022@gmail.com'
+
+# The App Password (not your real Gmail password!)
+EMAIL_HOST_PASSWORD = 'ubpj cpze ptpo uwbk'
+
+DEFAULT_FROM_EMAIL = "no-reply@yourdomain.com"  # optional
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "show-watch"  # matches your views.py redirect

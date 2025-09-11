@@ -4,10 +4,25 @@ from .models import Watch
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.db import models
+from django.core.paginator import Paginator
+from django.contrib.auth import get_user_model
 
 def home_view(request):
+    watches = Watch.objects.all()
+    total_watches = watches.count()
+    total_brands = watches.values_list('brand', flat=True).distinct().count()
+    User = get_user_model()
+    total_users = User.objects.filter(is_staff=True).count()  # or use a static value if you prefer
+    latest_watches = watches.order_by('-id')[:3]
     template_name = "watch_app/home.html"
-    context = {}
+    context = {
+        'watches': watches,
+        'total_watches': total_watches,
+        'total_brands': total_brands,
+        'total_users': total_users,
+        'latest_watches': latest_watches,
+    }
     return render(request, template_name, context)
 
 
@@ -34,9 +49,24 @@ def add_watch_view(request):
 
 @login_required(login_url='login')
 def show_watch_view(request):
+    query = request.GET.get('q', '')
     watches = Watch.objects.all()
+    if query:
+        watches = watches.filter(
+            models.Q(brand__icontains=query) |
+            models.Q(name__icontains=query) |
+            models.Q(model__icontains=query)
+        )
+    paginator = Paginator(watches, 8)  # 8 watches per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     template_name = "watch_app/show_watch.html"
-    context = {'watches': watches}
+    context = {
+        'watches': page_obj.object_list,
+        'is_paginated': page_obj.has_other_pages(),
+        'page_obj': page_obj,
+        'request': request,
+    }
     return render(request, template_name, context)
 
 def update_watch_view(request, id):

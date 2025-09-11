@@ -6,16 +6,19 @@
 
 {% block content %}
 <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h2 class="fw-bold mb-0">⌚ Watches Collection</h2>
+        <form class="d-flex" method="get" action="">
+            <input class="form-control me-2" type="search" name="q" placeholder="Search watches..." value="{{ request.GET.q|default:'' }}" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
     <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white text-center rounded-top-4">
-            <h2 class="mb-0 fw-bold">⌚ Watches Collection</h2>
-        </div>
-
         <div class="card-body">
             <div class="row g-4">
                 {% for watch in watches %}
                     <div class="col-md-4 col-lg-3">
-                        <div class="card h-100 shadow-sm border-0 rounded-4">
+                        <div class="card h-100 shadow-sm border-0 rounded-4 watch-card">
                             {% if watch.image %}
                                 <img src="{{ watch.image.url }}"
                                      alt="{{ watch.name }}"
@@ -54,9 +57,50 @@
                             </div>
                         </div>
                     </div>
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info text-center">No watches found.</div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
+        {% if is_paginated %}
+        <div class="card-footer bg-white border-0 rounded-bottom-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mb-0">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;</span>
+                        </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item"><a class="page-link" href="?q={{ request.GET.q }}&page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&raquo;</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
     </div>
 </div>
 
@@ -69,4 +113,17 @@
         </div>
     {% endfor %}
 </div>
+
+<style>
+    .watch-card {
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .watch-card:hover {
+        transform: translateY(-5px) scale(1.03);
+        box-shadow: 0 8px 32px rgba(63,17,143,0.15);
+    }
+    .btn-outline-warning:hover, .btn-outline-danger:hover {
+        filter: brightness(1.1);
+    }
+</style>
 {% endblock %}

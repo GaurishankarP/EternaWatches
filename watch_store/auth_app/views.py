@@ -34,6 +34,10 @@ def login_view(request):
     context = {}
     return render(request, template_name, context)
 
+
+
+
+
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logout Successfully')

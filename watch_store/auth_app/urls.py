@@ -1,6 +1,6 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
-from .views import signup_view, login_view, logout_view
+from .views import signup_view, login_view,logout_view
 
 urlpatterns = [
     path("signup/", signup_view, name="signup"),

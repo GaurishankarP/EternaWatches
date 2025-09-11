@@ -155,3 +155,4 @@ DEFAULT_FROM_EMAIL = "no-reply@yourdomain.com"  # optional
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "show-watch"  # matches your views.py redirect
+LOGOUT_REDIRECT_URL = "home"

@@ -20,7 +20,6 @@
             font-weight: bold;
             letter-spacing: 1px;
         }
-        /* Make main take up all available space */
         main {
             flex: 1;
         }
@@ -34,13 +33,21 @@
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3f118f;">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                <span class="me-2"><svg width="32" height="32" fill="currentColor" class="bi bi-watch" viewBox="0 0 16 16"><path d="M8 3a5 5 0 1 0 0 10A5 5 0 0 0 8 3zm0 1a4 4 0 1 1 0 8A4 4 0 0 1 8 4z"/><path d="M8 1a1 1 0 0 1 1 1v1.07a6.001 6.001 0 0 1 4.93 4.93H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-1.07a6.001 6.001 0 0 1-4.93 4.93V15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1.07A6.001 6.001 0 0 1 .07 8H1a1 1 0 0 1 1-1V6a1 1 0 0 1-1-1h1.07A6.001 6.001 0 0 1 7 1.07V1a1 1 0 0 1 1-1h2z"/></svg></span>
+                <span class="me-2">
+                    <svg width="32" height="32" fill="currentColor" class="bi bi-watch" viewBox="0 0 16 16">
+                        <path d="M8 3a5 5 0 1 0 0 10A5 5 0 0 0 8 3zm0 1a4 4 0 1 1 0 8A4 4 0 0 1 8 4z"/>
+                        <path d="M8 1a1 1 0 0 1 1 1v1.07a6.001 6.001 0 0 1 4.93 4.93H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-1.07a6.001 6.001 0 0 1-4.93 4.93V15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-1.07A6.001 6.001 0 0 1 .07 8H1a1 1 0 0 1 1-1V6a1 1 0 0 1-1-1h1.07A6.001 6.001 0 0 1 7 1.07V1a1 1 0 0 1 1-1h2z"/>
+                    </svg>
+                </span>
                 Watch Inventory
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -61,20 +68,23 @@
         </div>
     </nav>
 
-    <!-- Main wrapper -->
+    <!-- ✅ Alerts: fixed at top-right -->
+    {% if messages %}
+    <div class="position-fixed top-0 end-0 p-3" style="z-index:1080;">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow auto-dismiss-alert mb-2"
+                 role="alert" style="min-width:280px;">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main content -->
     <main>
         <div class="container mt-4">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show auto-dismiss-alert" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-
-            {% block content %}
-            {% endblock %}
+            {% block content %}{% endblock %}
         </div>
     </main>
 
@@ -86,18 +96,24 @@
             </div>
             <div>
                 <a href="{% url 'about' %}" class="text-white text-decoration-none me-3">About</a>
-                <a href="{% url 'contact' %}" class="text-white text-decoration-none">Contact Us</a>
+                <a href="{% url 'contact' %}" class="text-white text-decoration-none me-3">Contact Us</a>
+                <a href="{% url 'faq' %}" class="text-white text-decoration-none me-3">FAQs</a>
+                <a href="{% url 'privacy_policy' %}" class="text-white text-decoration-none me-3">Privacy Policy</a>
+                <a href="{% url 'terms&conditions' %}" class="text-white text-decoration-none">Terms & Conditions</a>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+            crossorigin="anonymous"></script>
+
     <script>
         // Auto-dismiss alerts after 3 seconds
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var alertList = document.querySelectorAll('.auto-dismiss-alert');
-            alertList.forEach(function(alert) {
-                setTimeout(function() {
+            alertList.forEach(function (alert) {
+                setTimeout(function () {
                     var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
                     bsAlert.close();
                 }, 3000);

@@ -112,3 +112,19 @@ def contact_us_view(request):
     context = {}
     return render(request, template_name, context)
 
+def faqs_view(request):
+    template_name = "watch_app/faq.html"
+    context = {}
+    return render(request, template_name, context)
+
+def privacy_policy_view(request):
+    template_name = "watch_app/privacy_policy.html"
+    context = {}
+    return render(request, template_name, context)
+
+def terms_and_conditions_view(request):
+    template_name = "watch_app/terms_and_conditons.html"
+    context = {}
+    return render(request, template_name, context)
+
+

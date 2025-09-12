@@ -6,26 +6,34 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-5 d-flex justify-content-center">
-    <div class="card shadow-lg border-0 rounded-4 w-50">
-        <div class="card-header text-white text-center rounded-top-4" style="background-color: #3f118f;">
-            <h2 class="mb-0 fw-bold">➕ Add a New Watch</h2>
-        </div>
+<style>
+     body {
+        background:
+            url('https://media.istockphoto.com/id/1359472013/photo/golden-clock-needle-points-to-9.webp?a=1&b=1&s=612x612&w=0&k=20&c=dZqQZLMt76SH_m6J_alK5XfkhIzOu3_0SCBf-n3D3-A=')
+            no-repeat center center/cover;
+        min-height: 100vh;
+    }
+</style>
+    <div class="container mt-5 mb-5 d-flex justify-content-center">
+        <div class="card shadow-lg border-0 rounded-4 w-50">
+            <div class="card-header text-white text-center rounded-top-4" style="background-color: #3f118f;">
+                <h2 class="mb-0 fw-bold">➕ Add a New Watch</h2>
+            </div>
 
-        <div class="card-body p-4">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form | crispy }}
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form | crispy }}
 
-                <div class="text-center mt-4">
-                    <button class="btn text-white px-4" style="background-color: #3f118f;">
-                        <i class="bi bi-plus-circle"></i> Add Watch
-                    </button>
-                </div>
-            </form>
+                    <div class="text-center mt-4">
+                        <button class="btn text-white px-4" style="background-color: #3f118f;">
+                            <i class="bi bi-plus-circle"></i> Add Watch
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
 
 

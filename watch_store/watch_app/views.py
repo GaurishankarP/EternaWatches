@@ -26,31 +26,37 @@ def home_view(request):
     return render(request, template_name, context)
 
 
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.mail import send_mail
+
 @login_required(login_url='login')
 def add_watch_view(request):
-    form = WatchForm()
     if request.method == 'POST':
         form = WatchForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            watch = form.save(commit=False)      # don't save yet
+            watch.owner = request.user           # ✅ assign logged-in user
+            watch.save()                         # now save
             send_mail(
                 'Test Email',
                 'Hello! Your Product has been added.',
                 'yogeshpandhargeri2022@gmail.com',  # From
-                ['pandhargeri27@gmail.com'],  # To
+                ['pandhargeri27@gmail.com'],        # To
                 fail_silently=False,
             )
-
             messages.success(request, 'Watch Added Successfully')
             return redirect('show-watch')
-    template_name = "watch_app/add_watch.html"
-    context = {'form': form}
-    return render(request, template_name, context)
+    else:
+        form = WatchForm()
+
+    return render(request, "watch_app/add_watch.html", {'form': form})
+
 
 @login_required(login_url='login')
 def show_watch_view(request):
     query = request.GET.get('q', '')
-    watches = Watch.objects.all()
+    watches = Watch.objects.filter(owner=request.user)
     if query:
         watches = watches.filter(
             models.Q(brand__icontains=query) |

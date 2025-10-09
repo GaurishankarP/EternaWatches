@@ -123,5 +123,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Auth redirects
 # ------------------------
 LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "show-watch"
+LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"

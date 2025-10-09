@@ -26,7 +26,7 @@ def login_view(request):
         if user:
             login(request, user)
             messages.success(request, 'Login Successfully')
-            return redirect('show-watch')
+            return redirect('home')
 
         else:
             messages.warning(request, 'Invalid Credentials')

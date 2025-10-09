@@ -8,13 +8,31 @@ from django.db import models
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.shortcuts import render
+from .models import Watch
+
 def home_view(request):
-    watches = Watch.objects.all()
-    total_watches = watches.count()
-    total_brands = watches.values_list('brand', flat=True).distinct().count()
     User = get_user_model()
-    total_users = User.objects.filter(is_staff=True).count()  # or use a static value if you prefer
-    latest_watches = watches.order_by('-id')[:3]
+
+
+
+    if request.user.is_authenticated:
+        # Show only watches belonging to the logged-in user
+        watches = Watch.objects.filter(owner=request.user)
+        total_watches = watches.count()
+        total_brands = watches.values_list('brand', flat=True).distinct().count()
+        total_users = User.objects.filter(is_staff=True).count()
+        latest_watches = watches.order_by('-id')[:3]
+    else:
+        # For visitors (not logged in)
+        watches = Watch.objects.none()
+        total_watches = 0
+        total_brands = 0
+        total_users = User.objects.filter(is_staff=True).count()
+        latest_watches = None
+
     template_name = "watch_app/home.html"
     context = {
         'watches': watches,
@@ -24,6 +42,7 @@ def home_view(request):
         'latest_watches': latest_watches,
     }
     return render(request, template_name, context)
+
 
 
 from django.contrib.auth.decorators import login_required

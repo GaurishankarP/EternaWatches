@@ -1,36 +1,110 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>Privacy Policy | Eterna Watches Inventory</title>
+<title>Privacy Policy | Eterna Watches Inventory</title>
 {% endblock %}
 
 {% block content %}
-<section class="container py-5">
-  <h1 class="text-center mb-4 text-primary">Privacy Policy</h1>
-  <p class="lead text-center">
-    This policy explains how Eterna Watches Inventory Management System handles and protects staff data.
+<style>
+  /* Hero Section */
+  .privacy-hero {
+    background: url('https://imageio.forbes.com/specials-images/imageserve/63d22a0b8c85bfb9504c5504/Data-Privacy---5-Best-Practices-Everyone-Should-Be-Following/0x0.jpg?crop=2667,1500,x333,y0,safe&height=399&width=711&fit=bounds') no-repeat center center/cover;
+    height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+    border-radius: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .privacy-hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(18, 18, 47, 0.65);
+    border-radius: 1rem;
+  }
+
+  .privacy-hero h1 {
+    position: relative;
+    z-index: 2;
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-shadow: 0px 3px 6px rgba(0,0,0,0.4);
+  }
+
+  /* Section Styling */
+  .privacy-section {
+    background: linear-gradient(180deg, #ffffff 0%, #f3f6ff 100%);
+    border-radius: 1rem;
+    padding: 40px 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    margin-bottom: 4rem;
+    animation: fadeIn 0.9s ease-in-out;
+  }
+
+  .privacy-section h3 {
+    color: #3c2eb8;
+    margin-top: 25px;
+    font-weight: 600;
+  }
+
+  .privacy-section p {
+    font-size: 1.05rem;
+    color: #333;
+    line-height: 1.7;
+  }
+
+  .privacy-section hr {
+    border-top: 2px solid #3c2eb8;
+    width: 80px;
+    margin: 1rem auto 2rem;
+    opacity: 0.8;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<!-- Hero Header -->
+<section class="privacy-hero">
+  <h1>Privacy Policy</h1>
+</section>
+
+<!-- Privacy Content -->
+<section class="container privacy-section text-center">
+  <p class="lead mb-4 text-muted">
+    This policy explains how <strong>Eterna Watches Inventory</strong> handles and protects staff data with utmost confidentiality.
   </p>
 
   <hr>
 
-  <h3>1. Information We Collect</h3>
-  <p>
-    We collect only the information required to manage inventory and user accounts, such as staff names, emails, and activity logs.
-  </p>
+  <div class="text-start">
+    <h3>1. Information We Collect</h3>
+    <p>
+      We collect only the information required to manage inventory and user accounts, such as staff names, emails, and activity logs.
+    </p>
 
-  <h3>2. How We Use Data</h3>
-  <p>
-    The data is used solely for managing inventory records, tracking activity, and sending system notifications.
-  </p>
+    <h3>2. How We Use Data</h3>
+    <p>
+      The data is used solely for managing inventory records, tracking activity, and sending important system notifications.
+    </p>
 
-  <h3>3. Data Protection</h3>
-  <p>
-    All information is stored securely with access restricted to authorized administrators.
-  </p>
+    <h3>3. Data Protection</h3>
+    <p>
+      All information is securely stored with access limited to authorized administrators. Our system uses encryption to protect user credentials and communications.
+    </p>
 
-  <h3>4. Changes to this Policy</h3>
-  <p>
-    We may update this Privacy Policy if system processes change. Updates will be communicated to all staff.
-  </p>
+    <h3>4. Changes to this Policy</h3>
+    <p>
+      We may update this Privacy Policy as system processes evolve. Updates will be communicated to all registered staff and displayed on this page.
+    </p>
+  </div>
 </section>
 {% endblock %}

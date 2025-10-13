@@ -1,36 +1,110 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>Terms & Conditions | Eterna Watches Inventory</title>
+<title>Terms & Conditions | Eterna Watches Inventory</title>
 {% endblock %}
 
 {% block content %}
-<section class="container py-5">
-  <h1 class="text-center mb-4 text-primary">Terms & Conditions</h1>
-  <p class="lead text-center">
-    Please read these terms before using the Eterna Watches Inventory Management System.
+<style>
+  /* Hero Section */
+  .terms-hero {
+    background: url('https://nebulaaitsolutions.com/assets/images/terms-and-condition-banner.webp') no-repeat center center/cover;
+    height: 45vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+    border-radius: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .terms-hero::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(18, 18, 47, 0.65);
+    border-radius: 1rem;
+  }
+
+  .terms-hero h1 {
+    position: relative;
+    z-index: 2;
+    font-size: 2.8rem;
+    font-weight: bold;
+    text-shadow: 0px 3px 6px rgba(0,0,0,0.4);
+  }
+
+  /* Section Styling */
+  .terms-section {
+    background: linear-gradient(180deg, #ffffff 0%, #f3f6ff 100%);
+    border-radius: 1rem;
+    padding: 40px 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    margin-bottom: 4rem;
+    animation: fadeIn 0.9s ease-in-out;
+  }
+
+  .terms-section h3 {
+    color: #3c2eb8;
+    margin-top: 25px;
+    font-weight: 600;
+  }
+
+  .terms-section p {
+    font-size: 1.05rem;
+    color: #333;
+    line-height: 1.7;
+  }
+
+  .terms-section hr {
+    border-top: 2px solid #3c2eb8;
+    width: 80px;
+    margin: 1rem auto 2rem;
+    opacity: 0.8;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<!-- Hero Header -->
+<section class="terms-hero">
+  <h1>Terms & Conditions</h1>
+</section>
+
+<!-- Terms Content -->
+<section class="container terms-section text-center">
+  <p class="lead mb-4 text-muted">
+    Please read these terms carefully before using the <strong>Eterna Watches Inventory Management System</strong>.
   </p>
 
   <hr>
 
-  <h3>1. Authorized Use</h3>
-  <p>
-    Only registered staff members may access and use the system. Sharing login credentials is prohibited.
-  </p>
+  <div class="text-start">
+    <h3>1. Authorized Use</h3>
+    <p>
+      Only registered staff members are permitted to access and use the system. Sharing of login credentials is strictly prohibited.
+    </p>
 
-  <h3>2. Data Accuracy</h3>
-  <p>
-    Staff must ensure all inventory details entered are accurate and up to date.
-  </p>
+    <h3>2. Data Accuracy</h3>
+    <p>
+      All staff are responsible for ensuring that inventory details entered are accurate, complete, and kept up to date at all times.
+    </p>
 
-  <h3>3. Security & Confidentiality</h3>
-  <p>
-    Users must keep passwords secure and report suspicious activity immediately.
-  </p>
+    <h3>3. Security & Confidentiality</h3>
+    <p>
+      Users must maintain the confidentiality of their login credentials and immediately report any suspicious activity to the administrator.
+    </p>
 
-  <h3>4. Modifications</h3>
-  <p>
-    Eterna Watches reserves the right to modify these terms if needed. Changes will be notified to staff.
-  </p>
+    <h3>4. Modifications</h3>
+    <p>
+      <strong>Eterna Watches</strong> reserves the right to modify or update these Terms and Conditions as necessary. Any significant changes will be communicated to all registered users.
+    </p>
+  </div>
 </section>
 {% endblock %}

@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>Contact Support | Eterna Watches</title>
+<title>Contact Support | Eterna Watches</title>
 {% endblock %}
 
 {% block content %}
 <style>
+    /* ---------- HEADER SECTION ---------- */
     .contact-header {
-        background: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1600&auto=format&fit=crop') no-repeat center center/cover;
-        height: 60vh;
+        background: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1600&auto=format&fit=crop')
+                    no-repeat center center/cover;
+        height: 70vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -17,31 +19,140 @@
         position: relative;
         border-radius: 1rem;
         margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
     }
+
     .contact-header::after {
         content: "";
         position: absolute;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        background: rgba(63, 17, 143, 0.6);
-        border-radius: 1rem;
+        background: rgba(63, 17, 143, 0.65);
+        backdrop-filter: blur(3px);
     }
+
     .contact-header h1 {
         position: relative;
         z-index: 1;
         font-size: 3rem;
-        font-weight: bold;
+        font-weight: 800;
+        letter-spacing: 1px;
+        animation: fadeDown 1.2s ease-in-out;
     }
+
+    @keyframes fadeDown {
+        from { opacity: 0; transform: translateY(-40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------- CONTENT SECTION ---------- */
     .content-section {
-        padding: 60px 20px;
+        padding: 70px 20px;
+        color: #333;
+        line-height: 1.8;
     }
+
     .content-section h2 {
         font-weight: 700;
         color: #3f118f;
+        margin-bottom: 20px;
+        transition: color 0.3s ease;
     }
+
+    .content-section h2:hover {
+        color: #5e35b1;
+    }
+
+    .content-section p {
+        color: #555;
+        max-width: 800px;
+        margin: 0 auto 30px auto;
+        font-size: 1.05rem;
+    }
+
+    /* ---------- FORM STYLING ---------- */
+    form {
+        background: #ffffff;
+        padding: 40px 30px;
+        border-radius: 1rem;
+        box-shadow: 0 4px 20px rgba(63, 17, 143, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    form:hover {
+        box-shadow: 0 6px 25px rgba(63, 17, 143, 0.2);
+        transform: translateY(-3px);
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #3f118f;
+    }
+
+    .form-control {
+        background-color: #f8f9fc;
+        border: 1px solid #ccc;
+        color: #333;
+    }
+
+    .form-control::placeholder {
+        color: #888;
+    }
+
     .form-control:focus {
         border-color: #3f118f;
-        box-shadow: 0 0 0 0.2rem rgba(63, 17, 143, 0.25);
+        box-shadow: 0 0 0 0.25rem rgba(63, 17, 143, 0.25);
+        background-color: #fff;
+    }
+
+    /* ---------- BUTTON ---------- */
+    .btn-outline-primary {
+        color: #3f118f;
+        border-color: #3f118f;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        padding: 10px 30px;
+        border-radius: 30px;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #3f118f;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(63, 17, 143, 0.3);
+    }
+
+    /* ---------- CONTACT INFO ---------- */
+    .contact-info {
+        background: #f9f9ff;
+        border-radius: 1rem;
+        padding: 30px;
+        margin-top: 60px;
+        box-shadow: 0 3px 10px rgba(63, 17, 143, 0.08);
+    }
+
+    .contact-info h5 {
+        color: #3f118f;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .contact-info p {
+        color: #555;
+        margin-bottom: 15px;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 768px) {
+        .contact-header {
+            height: 50vh;
+        }
+        .contact-header h1 {
+            font-size: 2rem;
+        }
+        form {
+            padding: 25px 20px;
+        }
     }
 </style>
 
@@ -50,58 +161,60 @@
     <h1>Contact Support</h1>
 </section>
 
-<!-- Contact Form -->
+<!-- Contact Form Section -->
 <div class="container content-section">
     <div class="row justify-content-center">
-      <div class="col-md-8">
-        <h2 class="text-center mb-4">Need Help?</h2>
-        <p class="text-center mb-5">
-          This form is for internal staff members only.
-          If you need help with the inventory system, account access, or technical issues, please reach out below.
-        </p>
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">Need Help?</h2>
+            <p class="text-center mb-5">
+                This form is for internal staff members only.
+                If you need help with the inventory system, account access, or technical issues, please reach out below.
+            </p>
 
-        <form>
-          <div class="mb-3">
-            <label for="name" class="form-label">Your Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter your full name">
-          </div>
+            <form method="post" action="{% url 'contact' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
 
-          <div class="mb-3">
-            <label for="email" class="form-label">Work Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your official email">
-          </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Work Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your official email" required>
+                </div>
 
-          <div class="mb-3">
-            <label for="category" class="form-label">Issue Type</label>
-            <select class="form-control" id="category">
-              <option>Account Access / Login Issue</option>
-              <option>Inventory Data Error</option>
-              <option>Low-stock Alert Query</option>
-              <option>Report Generation Issue</option>
-              <option>Other Technical Support</option>
-            </select>
-          </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Issue Type</label>
+                    <select class="form-control" id="category" name="category" required>
+                          <option>Account Access / Login Issue</option>
+                          <option>Inventory Data Error</option>
+                          <option>Low-stock Alert Query</option>
+                          <option>Report Generation Issue</option>
+                          <option>Other Technical Support</option>
+                    </select>
+                </div>
 
-          <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
-            <textarea class="form-control" id="message" rows="5" placeholder="Describe your issue in detail..."></textarea>
-          </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Describe your issue in detail..." required></textarea>
+                </div>
 
-          <div class="text-center">
-            <button type="submit" class="btn btn-outline-primary">Submit Request</button>
-          </div>
-        </form>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-primary">Submit Request</button>
+                </div>
+            </form>
 
-        <!-- Support Info -->
-        <div class="text-center mt-5">
-          <h5>👨‍💻 System Admin Office</h5>
-          <p>Mumbai, India</p>
-          <h5>📧 Support Email</h5>
-          <p>admin@eternawatches.com</p>
-          <h5>📞 Internal Helpdesk</h5>
-          <p>+91 98765 43210</p>
+
+            <!-- Support Info -->
+            <div class="text-center contact-info mt-5">
+                <h5>👨‍💻 System Admin Office</h5>
+                <p>Mumbai, India</p>
+                <h5>📧 Support Email</h5>
+                <p>admin@eternawatches.com</p>
+                <h5>📞 Internal Helpdesk</h5>
+                <p>+91 98765 43210</p>
+            </div>
         </div>
-      </div>
     </div>
 </div>
 {% endblock %}

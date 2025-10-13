@@ -6,50 +6,127 @@
 
 {% block content %}
 <style>
+    /* ===== Header Section ===== */
     .faq-header {
-        background: url('https://plus.unsplash.com/premium_photo-1733266880122-1e9a03068ab1?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fGZhcXN8ZW58MHx8MHx8fDA%3D') no-repeat center center/cover;
-        height: 45vh;
+        background: linear-gradient(135deg, rgba(63, 17, 143, 0.85), rgba(20, 20, 50, 0.85)),
+            url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1600&auto=format&fit=crop&q=80')
+            no-repeat center center/cover;
+        height: 55vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: #fff;
         text-align: center;
-        position: relative;
         border-radius: 1rem;
-        margin-bottom: 2rem;
+        margin: 2rem auto;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        position: relative;
     }
+
+    .faq-header h1 {
+        font-weight: 700;
+        font-size: 3rem;
+        letter-spacing: 1px;
+        z-index: 1;
+        position: relative;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        animation: fadeIn 1s ease-in-out;
+    }
+
     .faq-header::after {
         content: "";
         position: absolute;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        background: rgba(63, 17, 143, 0.65);
-        border-radius: 1rem;
+        background: linear-gradient(to bottom, rgba(63, 17, 143, 0.3), rgba(0, 0, 0, 0.5));
     }
-    .faq-header h1 {
-        position: relative;
-        z-index: 1;
-        font-size: 2.5rem;
-        font-weight: bold;
-    }
+
+    /* ===== FAQ Section ===== */
     .faq-section {
-        padding: 40px 20px;
+        padding: 60px 20px;
+        max-width: 900px;
+        margin: 0 auto 60px;
     }
+
+    .accordion-item {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 1rem;
+        overflow: hidden;
+        background: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .accordion-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(63, 17, 143, 0.15);
+    }
+
+    .accordion-button {
+        font-weight: 600;
+        background-color: #f8f9fa;
+        color: #3f118f;
+        padding: 1.2rem;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: #fff;
+        background: linear-gradient(135deg, #3f118f, #6f42c1);
+        box-shadow: 0 4px 10px rgba(63, 17, 143, 0.3);
+    }
+
     .accordion-button:focus {
         box-shadow: none;
+        outline: none;
+    }
+
+    .accordion-body {
+        background: #fff;
+        padding: 1.2rem 1.5rem;
+        line-height: 1.7;
+        color: #333;
+        font-size: 0.96rem;
+    }
+
+    a {
+        color: #3f118f;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    a:hover {
+        color: #6f42c1;
+        text-decoration: underline;
+    }
+
+    /* ===== Animation ===== */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+        .faq-header h1 {
+            font-size: 2.2rem;
+        }
     }
 </style>
 
-<!-- FAQ Header -->
-<section class="faq-header mb-5">
+<!-- ===== Header ===== -->
+<section class="faq-header">
     <h1>Frequently Asked Questions</h1>
 </section>
 
-<!-- FAQ Content -->
+<!-- ===== FAQ Content ===== -->
 <div class="container faq-section">
     <div class="accordion" id="faqAccordion">
 
-        <!-- Question 1 -->
+        <!-- Q1 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="q1">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#a1">
@@ -58,13 +135,13 @@
             </h2>
             <div id="a1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                    Go to <strong>“Add Watch”</strong> from the navigation menu, fill in the required details like brand, model, price, and stock, then click <em>Save</em>.  
-                    The watch will instantly appear in your stock list.
+                    Go to <strong>“Add Watch”</strong> from the navigation menu, fill in brand, model, price, and stock,
+                    then click <em>Save</em>. The watch will instantly appear in your stock list.
                 </div>
             </div>
         </div>
 
-        <!-- Question 2 -->
+        <!-- Q2 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="q2">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a2">
@@ -73,12 +150,13 @@
             </h2>
             <div id="a2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                    Open the <strong>“Manage Inventory”</strong> page, locate the watch you want to update, and choose <em>Edit</em> or <em>Delete</em> from the actions column.
+                    Open the <strong>“Manage Inventory”</strong> page, locate the watch you want to update,
+                    and choose <em>Edit</em> or <em>Delete</em> from the actions column.
                 </div>
             </div>
         </div>
 
-        <!-- Question 3 -->
+        <!-- Q3 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="q3">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a3">
@@ -87,12 +165,13 @@
             </h2>
             <div id="a3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                    Check the <strong>Dashboard</strong> or <strong>Reports</strong> section. Low-stock alerts appear in red, and you can generate a “Low Stock Report” anytime.
+                    Check the <strong>Dashboard</strong> or <strong>Reports</strong> section.
+                    Low-stock alerts appear in red, and you can generate a “Low Stock Report” anytime.
                 </div>
             </div>
         </div>
 
-        <!-- Question 4 -->
+        <!-- Q4 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="q4">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a4">
@@ -101,12 +180,13 @@
             </h2>
             <div id="a4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                    Only users with <strong>Admin</strong> privileges can add or edit staff accounts from the <em>User Management</em> page.
+                    Only users with <strong>Admin</strong> privileges can add or edit staff accounts
+                    from the <em>User Management</em> page.
                 </div>
             </div>
         </div>
 
-        <!-- Question 5 -->
+        <!-- Q5 -->
         <div class="accordion-item">
             <h2 class="accordion-header" id="q5">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#a5">
@@ -115,7 +195,9 @@
             </h2>
             <div id="a5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                    Click on the <strong>“Forgot Password”</strong> link on the login page. If you’re still locked out, contact the system administrator via the <a href="{% url 'contact' %}">Contact page</a>.
+                    Click on the <strong>“Forgot Password”</strong> link on the login page.
+                    If you’re still locked out, contact the system administrator via the
+                    <a href="{% url 'contact' %}">Contact page</a>.
                 </div>
             </div>
         </div>

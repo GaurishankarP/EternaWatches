@@ -5,36 +5,63 @@
     {% block title %}
         <title>Watch Inventory Management</title>
     {% endblock %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
+        /* ===== Base Layout ===== */
         body {
             background-color: #f8f9fa;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             margin: 0;
-            padding: 0;
         }
+
+        /* ✅ Fixed Navbar with blur + shadow */
+        .navbar {
+            background-color: rgba(12, 50, 66, 0.95);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
         .navbar-brand {
             font-weight: bold;
             letter-spacing: 1px;
         }
+
+        /* ✅ Prevent content from hiding behind fixed navbar */
         main {
             flex: 1;
+            padding-top: 85px; /* Adjust for navbar height */
         }
+
+        /* Footer styling */
         footer {
-            background: #3f118f;
+            background: #0c3242;
             color: #fff;
             padding: 1rem 0;
             text-align: center;
             margin-top: auto;
         }
+
+        /* Footer link hover */
+        footer a {
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ffc107;
+        }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #3f118f;">
+
+    <!-- ✅ Fixed Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
                 <span class="me-2">
@@ -45,11 +72,13 @@
                 </span>
                 Watch Inventory
             </a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
@@ -68,7 +97,7 @@
         </div>
     </nav>
 
-    <!-- ✅ Alerts: fixed at top-right -->
+    <!-- Alerts -->
     {% if messages %}
     <div class="position-fixed top-0 end-0 p-3" style="z-index:1080;">
         {% for message in messages %}
@@ -81,35 +110,34 @@
     </div>
     {% endif %}
 
-    <!-- Main content -->
+    <!-- ✅ Main Content -->
     <main>
         <div class="container mt-4">
             {% block content %}{% endblock %}
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- ✅ Footer -->
     <footer>
         <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
             <div>
                 &copy; {{ year|default:2025 }} Watch Inventory Management System. All rights reserved.
             </div>
             <div>
-                <a href="{% url 'about' %}" class="text-white text-decoration-none me-3">About</a>
-                <a href="{% url 'contact' %}" class="text-white text-decoration-none me-3">Contact Us</a>
-                <a href="{% url 'faq' %}" class="text-white text-decoration-none me-3">FAQs</a>
-                <a href="{% url 'privacy_policy' %}" class="text-white text-decoration-none me-3">Privacy Policy</a>
-                <a href="{% url 'terms&conditions' %}" class="text-white text-decoration-none">Terms & Conditions</a>
+                <a href="{% url 'about' %}" class="text-decoration-none me-3">About</a>
+                <a href="{% url 'contact' %}" class="text-decoration-none me-3">Contact Us</a>
+                <a href="{% url 'faq' %}" class="text-decoration-none me-3">FAQs</a>
+                <a href="{% url 'privacy_policy' %}" class="text-decoration-none me-3">Privacy Policy</a>
+                <a href="{% url 'terms&conditions' %}" class="text-decoration-none">Terms & Conditions</a>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-            crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Auto-dismiss Alerts -->
     <script>
-        // Auto-dismiss alerts after 3 seconds
         document.addEventListener('DOMContentLoaded', function () {
             var alertList = document.querySelectorAll('.auto-dismiss-alert');
             alertList.forEach(function (alert) {

@@ -62,8 +62,10 @@
     transition: opacity 0.4s ease, background-position 1s ease;
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
-            mask-composite: exclude;
+    mask-composite: exclude;
+    pointer-events: none;   /* ✅ THIS FIXES THE CLICK ISSUE */
 }
+
 
 .watch-card:hover::before {
     opacity: 1;

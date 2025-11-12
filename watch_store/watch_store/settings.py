@@ -5,6 +5,7 @@ Django settings for watch_store project.
 from pathlib import Path
 import os
 from decouple import config, Csv
+from django.conf.global_settings import EMAIL_BACKEND
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -108,14 +109,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Email (from .env)
 # ------------------------
 # Email backend
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = "apikey"
+    EMAIL_HOST_PASSWORD = config("SENDGRID_API_KEY")
+    DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 
 

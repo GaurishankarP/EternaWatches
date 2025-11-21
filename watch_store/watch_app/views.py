@@ -8,31 +8,36 @@ from django.db import models
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 
+from .models import Activity
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from .models import Watch
 from django.conf import settings
 
+from .models import Activity   # <-- add this import
+
 def home_view(request):
     User = get_user_model()
-
-
 
     if request.user.is_authenticated:
         # Show only watches belonging to the logged-in user
         watches = Watch.objects.filter(owner=request.user)
         total_watches = watches.count()
         total_brands = watches.values_list('brand', flat=True).distinct().count()
-        total_users = User.objects.filter(is_staff=True).count()
-        latest_watches = watches.order_by('-id')[:3]
+        total_users = User.objects.filter(is_staff=True).count()  # keeping your original logic
+
+        # ⭐ Correct: Fetch activity done by the logged-in user
+        latest_activity = Activity.objects.filter(
+            user=request.user
+        ).order_by('-timestamp')[:3]
+
     else:
-        # For visitors (not logged in)
         watches = Watch.objects.none()
         total_watches = 0
         total_brands = 0
         total_users = User.objects.filter(is_staff=True).count()
-        latest_watches = None
+        latest_activity = None
 
     template_name = "watch_app/home.html"
     context = {
@@ -40,15 +45,18 @@ def home_view(request):
         'total_watches': total_watches,
         'total_brands': total_brands,
         'total_users': total_users,
-        'latest_watches': latest_watches,
+        'latest_activity': latest_activity,
     }
     return render(request, template_name, context)
 
 
 
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.core.mail import send_mail
+
+
+
+
+
+
 
 @login_required(login_url='login')
 def add_watch_view(request):
@@ -56,8 +64,16 @@ def add_watch_view(request):
         form = WatchForm(request.POST, request.FILES)
         if form.is_valid():
             watch = form.save(commit=False)      # don't save yet
-            watch.owner = request.user           # ✅ assign logged-in user
+            watch.owner = request.user           # assign logged-in user
             watch.save()                         # now save
+
+            # ⭐ Log Activity: "Added"
+            Activity.objects.create(
+                user=request.user,      # REQUIRED
+                action_type='add',
+                watch=watch
+            )
+
             send_mail(
                 'Test Email',
                 'Hello! Your Product has been added.',
@@ -65,12 +81,14 @@ def add_watch_view(request):
                 ['pandhargeri27@gmail.com'],        # To
                 fail_silently=False,
             )
+
             messages.success(request, 'Watch Added Successfully')
             return redirect('show-watch')
     else:
         form = WatchForm()
 
     return render(request, "watch_app/add_watch.html", {'form': form})
+
 
 
 @login_required(login_url='login')
@@ -95,25 +113,40 @@ def show_watch_view(request):
     }
     return render(request, template_name, context)
 
+
+
 def update_watch_view(request, id):
     watch = Watch.objects.get(id=id)
     form = WatchForm(instance=watch)
+
     if request.method == 'POST':
-        form = WatchForm(request.POST,request.FILES, instance=watch)
+        form = WatchForm(request.POST, request.FILES, instance=watch)
         if form.is_valid():
-            form.save()
+            watch = form.save()   # save updated watch
+
+            # ⭐ Log Activity: "Updated"
+            Activity.objects.create(
+                user=request.user,     # REQUIRED
+                action_type='update',
+                watch=watch
+            )
+
             send_mail(
                 'Test Email',
                 'Hello! Your Product has been updated.',
                 'yogeshpandhargeri2022@gmail.com',  # From
-                ['pandhargeri27@gmail.com'],  # To
+                ['pandhargeri27@gmail.com'],        # To
                 fail_silently=False,
             )
+
             messages.success(request, 'Watch Updated Successfully')
             return redirect('show-watch')
+
     template_name = "watch_app/add_watch.html"
     context = {'form': form}
     return render(request, template_name, context)
+
+
 
 def delete_watch_view(request, id):
     watch = Watch.objects.get(id=id)

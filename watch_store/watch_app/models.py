@@ -22,3 +22,22 @@ class Watch(models.Model):
 
     def __str__(self):
         return f"{self.brand} {self.name}"
+
+
+class Activity(models.Model):
+    ACTION_CHOICES = [
+        ("add", "Added"),
+        ("update", "Updated"),
+
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    watch = models.ForeignKey(Watch, on_delete=models.CASCADE, null=True, blank=True)
+    action_type = models.CharField(max_length=20, choices=ACTION_CHOICES)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} {self.action_type}"
+
+
+
